@@ -46,7 +46,8 @@ exports.addNewDoctor = async (request, response, next) => {
             calender: request.body.calender,
             clinicId: request.body.clinicId,
             appointmentId: request.body.appointmentId,
-            price: request.body.price
+            price: request.body.price,
+            status: request.body.status
         });
         newDoctor.save()
             .then((result) => {

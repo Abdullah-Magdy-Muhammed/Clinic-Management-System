@@ -11,14 +11,14 @@ const allowedUsers =require("./../middlewares/AuthorizeRole");
 const router = express.Router();
 
 router.route("/appointmentreport")
-.get(allowedUsers.checkWithRole("admin"),controller.getAllreport)
+.get(controller.getAllreport)
 
 router.route("/appointmentreportjson")
-.get(allowedUsers.checkWithRole("admin"),controller.jsonReport)
+.get(controller.jsonReport)
 
 
 router.route("/appointmentreport/:date")
-.get(allowedUsers.checkWithRole("admin"),controller.getDailyreport)
+.get(controller.getDailyreport)
 
 
 

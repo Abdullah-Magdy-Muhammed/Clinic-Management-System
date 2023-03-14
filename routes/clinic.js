@@ -13,28 +13,28 @@ const clinic = mongoose.model('clinic');
 
 
 router.route("/clinic")
-    .get(allowedUsers.checkWithRole("admin"), advancedResults(clinic), controller.getAllclinics)
-    .post(allowedUsers.checkWithRole("admin"), expressValidation.clinicPost, validator, controller.addClinic)
+    .get(advancedResults(clinic), controller.getAllclinics)
+    .post(expressValidation.clinicPost, validator, controller.addClinic)
 
 router.route("/clinic/:id")
-    .get(allowedUsers.checkWithRole("admin"), validator, controller.getClinicByID)
-    .delete(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.deleteClinicByID)
-    .patch(allowedUsers.checkWithRole("admin"), expressValidation.patientUpdate, validator, controller.updateClinic)
+    .get(validator, controller.getClinicByID)
+    .delete(expressValidation.paramIdInt, validator, controller.deleteClinicByID)
+    .patch(expressValidation.patientUpdate, validator, controller.updateClinic)
 
 router.route("/clinic/:id/doctor")
-    .get(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.getDoctors)
-    .post(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.pushDoctors)
-    .delete(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.deleteDoctor)
+    .get(expressValidation.paramIdInt, validator, controller.getDoctors)
+    .post(expressValidation.paramIdInt, validator, controller.pushDoctors)
+    .delete(expressValidation.paramIdInt, validator, controller.deleteDoctor)
 
 router.route("/clinic/:id/medicien")
-    .get(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.getMedicien)
-    .post(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.pushMedicien)
-    .delete(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.deleteMedicien)
+    .get(expressValidation.paramIdInt, validator, controller.getMedicien)
+    .post(expressValidation.paramIdInt, validator, controller.pushMedicien)
+    .delete(expressValidation.paramIdInt, validator, controller.deleteMedicien)
 
 router.route("/clinic/:id/employee")
-    .get(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.getEmployees)
-    .post(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.pushEmployee)
-    .delete(allowedUsers.checkWithRole("admin"), expressValidation.paramIdInt, validator, controller.deleteEmployee)
+    .get(expressValidation.paramIdInt, validator, controller.getEmployees)
+    .post(expressValidation.paramIdInt, validator, controller.pushEmployee)
+    .delete(expressValidation.paramIdInt, validator, controller.deleteEmployee)
 
 module.exports = router;
 

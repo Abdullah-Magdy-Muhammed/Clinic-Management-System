@@ -21,13 +21,13 @@ router.use('/patient/:patientId/appointment',allowedUsers.checkWithRole("patient
 
 
 router.route("/patient")
-.get(allowedUsers.checkWithRole("admin"),advancedResults(patient),controller.getPatients)
-.post(allowedUsers.checkWithRole("admin","patient"),validation.patientPost,validator,controller.createPatient)
+.get(advancedResults(patient),controller.getPatients)
+.post(validation.patientPost,validator,controller.createPatient)
 
 
 router.route("/patient/:id")
-.get(allowedUsers.checkWithRole("admin","patient"),validation.paramIdInt,validator,controller.getPatient)
-.delete(allowedUsers.checkWithRole("admin"),validation.paramIdInt,validator,controller.deletePatient)
-.patch(allowedUsers.checkWithRole("admin","patient"),validation.patientUpdate,validator,controller.updatePatient)
+.get(validation.paramIdInt,validator,controller.getPatient)
+.delete(validation.paramIdInt,validator,controller.deletePatient)
+.patch(validation.patientUpdate,validator,controller.updatePatient)
 
 module.exports=router;

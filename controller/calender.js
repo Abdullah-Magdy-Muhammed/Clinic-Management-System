@@ -8,8 +8,7 @@ require('./../model/doctorCalender');
 require("./../model/doctor");
 const calender= mongoose.model('calender');
 const doctors= mongoose.model('doctors');
-//------------------------------------------------------------TODO
-//error status 
+
 
 
 // @desc     Get all Calender
@@ -71,20 +70,6 @@ exports.createCalender = async (request,response,next) => {
             doctor: doctorId,
           })
           newCalender.save()
-          .then(result1=>{
-                newCalenderId =result1._id;
-            //Push the  callender to doctor 
-                doctors.findByIdAndUpdate(
-                    { _id: doctorId},
-                    { $push: { calender: newCalenderId } }
-                )
-                .then(result=>{
-                 response.status(201).json(result1)
-                })
-                .catch(error=>{
-                    next(new ErrorResponse(error));
-                })//end of catch ater save update doctor 
-            })
         .catch(error=>{
             next(new Error (error));
         })//end of catch ater save calender
@@ -134,32 +119,14 @@ exports.getCalender =(request,response,next)=>{
 // @route    DELETE /calender
 // @access   ----
 exports.deleteCalender =asyncHandler( async (request,response,next)=>{
-    let calenderObject;
     const id = parseInt(request.params.id);
     try{
-      let  result = await calender.findOneAndDelete({_id:request.params.id})
-        calenderObject = await result
-        //PULL calender id from doctor
-        if(calenderObject){
-            doctors.findByIdAndUpdate(
-                { _id: calenderObject.doctor },
-                { $pull: { calender: { $in: [id] } } },
-                { new: true },
-                (err, doctor) => {
-                  if (err) {
-                    response.status(500).send(err);
-                  }
-                  if (doctor) {
-                    response.status(200).json({success:true,messege:"Delete done successfully",doctorCalender:`${doctor.calender}`})
-                  } else {
-                    response.status(400).send("Bad request - User not found");
-                  }
-                }
-              );
-        }else{
-            next(new ErrorResponse(`calender doesn't exist with id of ${request.params.id}`,404))
-        }
-   
+       calender.deleteOne({_id:request.params.id}).then(res=>{
+        response.status(200).json({success:true,messege:"Delete done successfully"})
+       }).then(err=>{
+        response.status(400).send("Bad request - User not found");
+       })
+
     }
     catch (error){
         throw next(new Error(error))

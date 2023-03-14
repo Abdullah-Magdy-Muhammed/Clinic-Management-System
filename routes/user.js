@@ -14,7 +14,7 @@ const user = mongoose.model('users');
 router.post('/users/signup', authcontroller.signup);
 
 router.route("/users")
-    .get(allowedUsers.checkWithRole("admin"),advancedResults(user), controller.getAllUsers)
+    .get(advancedResults(user), controller.getAllUsers)
 
 
 
@@ -22,7 +22,7 @@ router.route("/users")
 //     validator,
 //     controller.getUserByID)
 
-router.delete("/users/:id", allowedUsers.checkWithRole("admin"),validaton.paramIdInt,  validator, controller.deleteUser)
+router.delete("/users/:id", validaton.paramIdInt,  validator, controller.deleteUser)
 
 
 module.exports = router;

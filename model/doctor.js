@@ -43,10 +43,6 @@ const doctorSchema = new mongoose.Schema({
   yearsOfExperience: {
     type: Number,
   },
-  calender: {
-    type: Array,
-    ref: "calender",
-  },
   clinicId: {
     type: Number,
     ref: "clinic",
@@ -54,6 +50,12 @@ const doctorSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
+  status:{
+    type:String,
+    default:'pending',
+    lowercase: true,
+    enum:['blocked','pending','available']
+}
 }, { _id: false })
 
 

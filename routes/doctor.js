@@ -14,20 +14,20 @@ const { request } = require("express");
 const doctors = mongoose.model('doctors');
 const router = express.Router();
 
-router.use('/doctors/:doctorId/calender',allowedUsers.checkWithRole("doctor"),controller.reRoute, calenderRouter)
-router.use('/doctors/:doctorId/appointment',allowedUsers.checkWithRole("doctor"), controller.reRoute, appointmentRouter)
+router.use('/doctors/:doctorId/calender',controller.reRoute, calenderRouter)
+router.use('/doctors/:doctorId/appointment', controller.reRoute, appointmentRouter)
 
 
 router.route("/doctors")
-      .get(allowedUsers.checkWithRole("admin"),advancedResults(doctors), controller.getAllDoctors)
-      .post(allowedUsers.checkWithRole("admin"),validation.doctorPost, validator, controller.addNewDoctor)
+      .get(advancedResults(doctors), controller.getAllDoctors)
+      .post(validation.doctorPost, validator, controller.addNewDoctor)
 
 router.route("/doctors/:id")
-      .get(allowedUsers.checkWithRole("doctor","admin"),
+      .get(
             validation.paramIdInt,
             validator, controller.getDoctorById)
-      .patch(allowedUsers.checkWithRole("doctor","admin"),validation.updateDoctor, validator, controller.updateDoctor)
-      .delete(allowedUsers.checkWithRole("admin"),
+      .patch(validation.updateDoctor, validator, controller.updateDoctor)
+      .delete(
             validation.paramIdInt,
             validator, controller.deleteDoctor)
 

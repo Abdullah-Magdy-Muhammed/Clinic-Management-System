@@ -33,9 +33,7 @@ const schema = new mongoose.Schema({
         required:[true,"Phone Number is required"]
         },
     address:schemas.addressSchema,
-    appointment:{type:Array , ref :'appintment'},
-    prescriptions:{type:Array , ref :'prescription'},
-    invoices:{type:Array , ref :'invoice'}
+    
 },{_id:false});
 
 
@@ -45,7 +43,6 @@ schema.plugin(autoIncrement, {id: 'patient_id_counter', inc_field: '_id' });
 
 // Cascade delete appointment when a patient is deleted
 schema.pre('remove', async function(next) {
-    console.log(`appointment being removed from patient ${this._id}`);
     await this.model('appointment').deleteMany({ patientId: this._id });
     await this.model('users').deleteMany({ patientRef_id:  this._id });
     await this.model('prescription').deleteMany({ patientId:  this._id });

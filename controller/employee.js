@@ -62,7 +62,8 @@ exports.addEmployee = async(request, response, next) => {
         phone: request.body.phone,
         gender: request.body.gender,
         address: request.body.address,
-        clinicId:request.body.clinicId
+        clinicId:request.body.clinicId,
+        status: request.body.status
     });
     newEmp.save()
         .then(result => {

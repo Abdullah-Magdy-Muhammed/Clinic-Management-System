@@ -13,13 +13,13 @@ const medicine = mongoose.model('medicine');
 // generate route to carry our method
 const router=express.Router();
 router.route("/")
-.get(allowedUsers.checkWithRole("admin"),advancedResults(medicine),validator,controller.getAllMedicines)
-.post(allowedUsers.checkWithRole("admin"),validation.medicinePost ,validator ,controller.addNewMedicine)
+.get(advancedResults(medicine),validator,controller.getAllMedicines)
+.post(validation.medicinePost ,validator ,controller.addNewMedicine)
 
 router.route("/:id")
-.delete(allowedUsers.checkWithRole("admin"),validation.paramIdInt,controller.deleteMedicine)
-.get(allowedUsers.checkWithRole("admin"),validation.paramIdInt,controller.getMedicineID)
-.patch(allowedUsers.checkWithRole("admin"),validation.medicineUpdate,validator,controller.updateMedicineData)
+.delete(validation.paramIdInt,controller.deleteMedicine)
+.get(validation.paramIdInt,controller.getMedicineID)
+.patch(validation.medicineUpdate,validator,controller.updateMedicineData)
 
 
 module.exports=router;

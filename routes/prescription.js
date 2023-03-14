@@ -9,18 +9,18 @@ const allowedUsers =require("./../middlewares/AuthorizeRole");
 
 router
   .route("/prescription")
-  .get(allowedUsers.checkWithRole("admin","doctor","patient"),prescriptionController.getAllrecriptiondata) 
-  .post(allowedUsers.checkWithRole("doctor"),vprescription,validator,prescriptionController.addrecriptiondata ) 
+  .get(prescriptionController.getAllrecriptiondata) 
+  .post(vprescription,validator,prescriptionController.addrecriptiondata ) 
   
 
 
 
   router.route("/prescription/:id")
-  .get(allowedUsers.checkWithRole("admin"),validation.paramIdInt,validator,
+  .get(validation.paramIdInt,validator,
   prescriptionController.getprecriptionByID)
 
 
-.patch(allowedUsers.checkWithRole("doctor"),
+.patch(
   validation.paramIdInt,
   validator,prescriptionController.updaterecriptionId
 )

@@ -84,7 +84,7 @@ server.use(express.json())
 server.use(loginRouter);
 
 //Authentication MW
-server.use(authinticationMw.login)
+//server.use(authinticationMw.login)
 
 //Routes
 server.use(userRouter)
