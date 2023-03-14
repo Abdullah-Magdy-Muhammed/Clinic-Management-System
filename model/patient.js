@@ -25,12 +25,14 @@ const schema = new mongoose.Schema({
         unique:true,
         match:[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,'Please add A valid email']
     },
-    password:{type:String,required:true},
-    phone:{type:Number,minlength:10, maxlength:14},
-    address:schemas.addressSchema,
-    appointment:[],
-    prescriptions:[],
-    invoices:[]
+    phone:{
+        type:Number,
+        match:[/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,"It is not a valid phone or line number"],
+        trim: true,
+        required:[true,"Phone Number is required"]
+        },
+    address:schemas.addressSchema
+   
 },{_id:false});
 
 
