@@ -17,7 +17,7 @@ router.route("/")
 
 
 router.route("/:id")
-  .get(allowedUsers.checkWithRole("admin","doctor","employee"),validation.paramIdInt,validator,controller.getCalender)
+  .get(validation.paramIdInt,validator,controller.getCalender)
   .delete(validation.paramIdInt,validator,controller.deleteCalender)
 
 

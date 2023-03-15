@@ -35,8 +35,9 @@ const employeeSchema =new mongoose.Schema({
       type:String,
       default:'pending',
       lowercase: true,
-      enum:['blocked','pending','available']
+      enum:['blocked','pending','active','deactivated']
   }
+ 
 },{_id:false})
 
 // Cascade delete Ref when a employee is deleted

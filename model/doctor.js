@@ -54,7 +54,7 @@ const doctorSchema = new mongoose.Schema({
     type:String,
     default:'pending',
     lowercase: true,
-    enum:['blocked','pending','available']
+    enum:['blocked','pending','active','deactivated']
 }
 }, { _id: false })
 

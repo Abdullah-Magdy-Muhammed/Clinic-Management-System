@@ -52,30 +52,29 @@ exports.createCalender = async (request,response,next) => {
     }
 
     calender.findOne({
-        weekday: request.body.weekday,
         doctor: doctorId,
         date: date,
     }).then(data=>{
         
-        if(data){
+        if(data)
             next(new Error(" already exist")); 
-        }else{
-            let newCalenderId;
-            let newCalender = new calender({
+        else{
+
+        let newCalenderId;
+        let newCalender = new calender({
             date: date,
             startAt: startAt.format("h:mm a"),
             endAt: endAt.format("h:mm a"),
             totalWorkingHours: totalWorkingHours,
             schedule:schedule,
             doctor: doctorId,
-          })
-          newCalender.save()
-        .catch(error=>{
-            next(new Error (error));
-        })//end of catch ater save calender
-
-
+             })
+            newCalender.save().then(data=>{ response.status(200).json({ message: "calender Added successfully" })})
+                .catch(error=>{
+                    next(new Error (error));
+                })//end of catch ater save calender
         }
+
     })
 
    
@@ -85,8 +84,6 @@ exports.createCalender = async (request,response,next) => {
 // @desc     Get single Calender
 // @route    GET /calender/:id
 // @access   Public
-
-
 
 exports.getCalender =(request,response,next)=>{
     if(request.role=="doctor"){

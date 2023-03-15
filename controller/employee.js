@@ -35,15 +35,16 @@ function specificEmployee(request, response, next) {
 
 //Get Employee By Id
 exports.getEmployeeById=(request,response,next)=>{
-    if (request.role == "employee" && request.params.id == request.id) {
-        specificEmployee(request, response, next)
-    } else if (request.role == "admin") {
-        specificEmployee(request, response, next)
-    } else {
-        let error = new Error("Not Authorized");
-        error.status = 403;
-        next(error)
-    }
+    specificEmployee(request, response, next)
+    // if (request.role == "employee" && request.params.id == request.id) {
+    //     specificEmployee(request, response, next)
+    // } else if (request.role == "admin") {
+    //     specificEmployee(request, response, next)
+    // } else {
+    //     let error = new Error("Not Authorized");
+    //     error.status = 403;
+    //     next(error)
+    // }
 }
 ///------------------------------------------------
 
@@ -122,7 +123,6 @@ function specificEmployeeUpdate(request, response, next) {
                     logger.info(`update employee with id: ${request.params.id}`,response.advancedResults );
                     response.status(201).json({ success: true, message: "Update patient" })
                 }
-                address: request.body.address
             }
         })
         .catch(error => next(error))
@@ -131,15 +131,16 @@ function specificEmployeeUpdate(request, response, next) {
 
 //U ---------------------------------------------------
 exports.updateEmployee = (request, response, next) => {
-    if (request.role == "employee" && request.params.id == request.id) {
-        specificEmployeeUpdate(request,response,next)
-    } else if (request.role == "admin") {
-        specificEmployeeUpdate(request,response,next)
-    } else {
-        let error = new Error("Not Authorizedddd");
-        error.status = 403;
-        next(error)
-    }
+    specificEmployeeUpdate(request,response,next)
+    // if (request.role == "employee" && request.params.id == request.id) {
+    //     specificEmployeeUpdate(request,response,next)
+    // } else if (request.role == "admin") {
+    //     specificEmployeeUpdate(request,response,next)
+    // } else {
+    //     let error = new Error("Not Authorizedddd");
+    //     error.status = 403;
+    //     next(error)
+    // }
     
 }
 //U ---------------------------------------------------
@@ -159,3 +160,37 @@ exports.deleteById = async  (request, response, next) => {
       employeeObject.remove();
       response.status(200).json({ success: true, messege: "Delete done successfully" })
 }
+
+
+
+exports.updateEmployeeStaus = (request, response, next)=> {
+    user.updateOne({
+        employeeRef_id: request.params.id
+    }, {
+        $set: {
+            status: request.body.status
+        }
+    }).then(res => {
+    employeeSchema.updateOne({
+        _id: request.params.id
+    },
+        {
+            $set: {
+                status: request.body.status
+            }
+        }).then(data => {
+            if (data.matchedCount == 0) {
+                logger.error(`faild to update employee with id: ${request.params.id}`);
+                next(new ErrorResponse("Not found any id match with (" + request.params.id + ") ", 404))
+            } else {
+                if (data.modifiedCount == 0) {
+                    next(new ErrorResponse("No changes happen", 400))
+                } else {
+                    logger.info(`update employee with id: ${request.params.id}`,response.advancedResults );
+                    response.status(201).json({ success: true, message: "Update patient" })
+                }
+            }
+        })
+        .catch(error => next(error))
+});
+};

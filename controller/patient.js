@@ -56,15 +56,16 @@ function specificPatient(request, response, next) {
 // @route    GET /patient/:id
 // @access   Public
 exports.getPatient =(request,response,next)=>{
-    if (request.role == "patient" && request.params.id == request.id) {
-        specificPatient(request, response, next)
-    } else if (request.role == "admin") {
-        specificPatient(request, response, next)
-    } else {
-        let error = new Error("Not Authorized");
-        error.status = 403;
-        next(error)
-    }
+    specificPatient(request, response, next)
+    // if (request.role == "patient" && request.params.id == request.id) {
+    //     specificPatient(request, response, next)
+    // } else if (request.role == "admin") {
+    //     specificPatient(request, response, next)
+    // } else {
+    //     let error = new Error("Not Authorized");
+    //     error.status = 403;
+    //     next(error)
+    // }
 }
 
 // @desc     Create Patient
@@ -88,6 +89,7 @@ exports.createPatient = async (request,response,next)=>{
                     password: request.body.password,
                     email: request.body.email,
                     role: "patient",
+                    status:"active",
                     patientRef_id: result._id
                 })
                 newUser.save()
@@ -117,6 +119,7 @@ function specificPatientUpdate(request, response, next) {
         $set: {
             email: request.body.email,
             password: request.body.password,
+            
             role: "patient"
         }
     }).then(res => {
@@ -155,15 +158,16 @@ function specificPatientUpdate(request, response, next) {
 // @access   ----
 exports.updatePatient =(request,response,next)=>{
 
-    if (request.role == "patient" && request.params.id == request.id) {
-        specificPatientUpdate(request,response,next)
-    } else if (request.role == "admin") {
-        specificPatientUpdate(request,response,next)
-    } else {
-        let error = new Error("Not Authorized");
-        error.status = 403;
-        next(error)
-    }
+    specificPatientUpdate(request,response,next)
+    // if (request.role == "patient" && request.params.id == request.id) {
+    //     specificPatientUpdate(request,response,next)
+    // } else if (request.role == "admin") {
+    //     specificPatientUpdate(request,response,next)
+    // } else {
+    //     let error = new Error("Not Authorized");
+    //     error.status = 403;
+    //     next(error)
+    // }
 }
 
 // @desc     Delete Patient
@@ -180,4 +184,41 @@ exports.deletePatient = async  (request, response, next) => {
       logger.info(`delete patient with id: ${request.params.id}`,response.advancedResults );
       patientObject.remove();
       response.status(200).json({ success: true, messege: "Delete done successfully" })
+}
+
+exports.updatepatientStatus = async  (request, response, next) => {
+     
+    if (Object.keys(request.body).length === 0) {
+        next(new ErrorResponse("Empty data", 400))
+    }
+
+    user.updateOne({
+        patientRef_id: request.params.id
+    }, {
+        $set: {
+            status: request.body.status
+        }
+    }).then(res => {
+
+        patient.updateOne({
+            _id: request.params.id
+        }, {
+            $set: {
+                status: request.body.status
+            }
+        }).then(data => {
+            if (data.matchedCount == 0) {
+                next(new ErrorResponse("Not found any id match with (" + request.params.id + ") ", 404))
+            } else {
+
+                if (data.modifiedCount == 0) {
+                    logger.error(`faild to update patient with id: ${request.params.id}`);
+                    next(new ErrorResponse("No changes happen", 400))
+                } else {
+                    logger.info(`update patient with id: ${request.params.id}`,response.advancedResults );
+                    response.status(201).json({ success: true, message: "Update patient" })
+                }
+            }
+        })
+    })
 }

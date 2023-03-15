@@ -12,6 +12,7 @@ const schema = new mongoose.Schema({
         trim: true,
         maxLength:300,
     },
+    clinicId: { type: Number, ref:"clinic"},
     isScaned:{ type: Boolean, default: false },
     calenderId:{type:Number},
     duration:{type:Number}

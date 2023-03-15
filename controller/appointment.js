@@ -31,10 +31,10 @@ exports.createAppointment = asyncHandler(async (request, response, next) => {
     let query;
     //prepare search Object 
     try {
-        query = await doctors.findOne({ name: request.body.doctorName })
+        query = await doctors.findOne({ _id: request.body.doctor })
         let doctorObject = await query
         if (doctorObject.length == 0) {
-            next(new ErrorResponse('Wrong Doctor Name'))
+            next(new ErrorResponse('Wrong Doctor ID'))
         }
 
         query = await calender.findOne({
@@ -49,6 +49,7 @@ exports.createAppointment = asyncHandler(async (request, response, next) => {
             //create new appointment
             let newAppointment = new appointment({
                 doctorId: doctorObject._id,//no patch 
+                clinicId: doctorObject.clinicId,
                 date: date,
                 time: startAt.format("h:mm a"),
                 patientId: request.patientId,

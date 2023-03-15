@@ -36,7 +36,6 @@ const advancedResults = (model, populate)=> async (request,response,next)=>{
             limit
         }
     } 
-    console.log(populate)
     if(populate){
         await model.find(JSON.parse(queryStr))
     .select(fields)
@@ -56,24 +55,26 @@ const advancedResults = (model, populate)=> async (request,response,next)=>{
     .catch(error=>{
         next(new ErrorResponse(404))
     })
-    }
-    //Find resource
+    }else{
+         //Find resource
   await model.find(JSON.parse(queryStr))
-    .select(fields)
-    .sort(sortBy)
-    .limit(limit)
-    .skip(startIndex)
-    .then(data=>{
-        response.advancedResults ={
-            success: true,
-            count: data.length,
-            pagination,
-            data:data 
-        }
-        next()
-    })
-    .catch(error=>{
-        next(new ErrorResponse(404))
-    })
+  .select(fields)
+  .sort(sortBy)
+  .limit(limit)
+  .skip(startIndex)
+  .then(data=>{
+      response.advancedResults ={
+          success: true,
+          count: data.length,
+          pagination,
+          data:data 
+      }
+      next()
+  })
+  .catch(error=>{
+      next(new ErrorResponse(404))
+  })
+    }
+   
 }
 module.exports = advancedResults

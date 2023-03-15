@@ -23,13 +23,11 @@ router.route("/doctors")
       .post(validation.doctorPost, validator, controller.addNewDoctor)
 
 router.route("/doctors/:id")
-      .get(
-            validation.paramIdInt,
-            validator, controller.getDoctorById)
+      .get(validation.paramIdInt,validator, controller.getDoctorById)
       .patch(validation.updateDoctor, validator, controller.updateDoctor)
-      .delete(
-            validation.paramIdInt,
-            validator, controller.deleteDoctor)
+      .delete(validation.paramIdInt,validator, controller.deleteDoctor)
 
-
+router.route("/doctors/:id/status")
+.patch(validation.updateStatus,validator,controller.updateDoctorStatus)
+            
 module.exports = router;

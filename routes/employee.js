@@ -24,4 +24,8 @@ router.route("/employee/:id")
     validation.paramIdInt,validator,employeeController.deleteById)
 .patch(
     validation.paramIdInt,validator,employeeController.updateEmployee)
+
+router.route("/employee/:id/status")
+.patch(validation.updateStatus,validator,employeeController.updateEmployeeStaus)
+     
 module.exports=router;

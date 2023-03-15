@@ -97,7 +97,7 @@ function specificDoctorUpdate(request, response, next) {
                     calender: request.body.calender,
                     clinicId: request.body.clinicId,
                     appointmentId: request.body.appointmentId,
-                    price: request.body.price
+                    price: request.body.price,
                 }
             },
             {}
@@ -118,15 +118,16 @@ function specificDoctorUpdate(request, response, next) {
 
 
 exports.updateDoctor = (request, response, next) => {
-    if (request.role == "doctor" && request.params.id == request.id) {
-        specificDoctorUpdate(request, response, next)
-    } else if (request.role == "admin" || request.role == "employee") {
-        specificDoctorUpdate(request, response, next)
-    } else {
-        let error = new Error("Not Authorized");
-        error.status = 403;
-        next(error)
-    }
+    specificDoctorUpdate(request, response, next)
+    // if (request.role == "doctor" && request.params.id == request.id) {
+    //     specificDoctorUpdate(request, response, next)
+    // } else if (request.role == "admin" || request.role == "employee") {
+    //     specificDoctorUpdate(request, response, next)
+    // } else {
+    //     let error = new Error("Not Authorized");
+    //     error.status = 403;
+    //     next(error)
+    // }
 }
 
 
@@ -147,15 +148,17 @@ function specificDoctor(request, response, next) {
 }
 
 exports.getDoctorById = (request, response, next) => {
-    if (request.role == "doctor" && request.params.id == request.id) {
-        specificDoctor(request, response, next)
-    } else if (request.role == "admin" || request.role == "employee") {
-        specificDoctor(request, response, next)
-    } else {
-        let error = new Error("Not Authorized");
-        error.status = 403;
-        next(error)
-    }
+            specificDoctor(request, response, next)
+
+    // if (request.role == "doctor" && request.params.id == request.id) {
+    //     specificDoctor(request, response, next)
+    // } else if (request.role == "admin" || request.role == "employee") {
+    //     specificDoctor(request, response, next)
+    // } else {
+    //     let error = new Error("Not Authorized");
+    //     error.status = 403;
+    //     next(error)
+    // }
 }
 
 // @desc     Delete doctor
@@ -172,4 +175,38 @@ exports.deleteDoctor = async (request, response, next) => {
     doctorObject.remove();
     logger.info(`delete doctor with id: ${request.params.id}`, response.advancedResults);
     response.status(200).json({ success: true, messege: "Delete done successfully" })
+}
+
+
+
+exports.updateDoctorStatus = async  (request, response, next) => {
+    user.updateOne({
+        doctorsRef_id: request.params.id
+    }, {
+        $set: {
+            status: request.body.status
+        }
+    }).then(res => {
+
+        doctorSchema.updateOne(
+            { _id: request.params.id },
+            {
+                $set: {
+                    status: request.body.status
+                }
+            },
+            {}
+        )
+            .then(result => {
+                if (result.matchedCount == 0) {
+                    logger.error(`faild to update doctor with id: ${request.params.id}`);
+                    throw new Error("This doctor is not exist");
+                }
+                else {
+                    logger.info(`update Doctor with id: ${request.params.id}`, response.advancedResults);
+                    response.status(200).json({ message: "Doctor updated successfully" })
+                }
+            })
+            .catch(error => { next(error) })
+    })
 }

@@ -18,6 +18,12 @@ const Schema = new mongoose.Schema({
             message: 'this not supported'
         }
     },
+    status:{
+      type:String,
+      default:'pending',
+      lowercase: true,
+      enum:['blocked','pending','active','deactivated']
+  },
     patientRef_id: {
         type: Number,
         ref: 'patient',

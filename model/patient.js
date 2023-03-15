@@ -33,6 +33,12 @@ const schema = new mongoose.Schema({
         required:[true,"Phone Number is required"]
         },
     address:schemas.addressSchema,
+    status:{
+        type:String,
+        default:'active',
+        lowercase: true,
+        enum:['blocked','active','deactivated']
+    }
     
 },{_id:false});
 

@@ -83,12 +83,14 @@ exports.getDoctors = (request, response, next) => {
 
 //
 exports.pushDoctors = (request, response, next) => {
+   
     const id = parseInt(request.body.doctors);
     ClinicSchema.findOne({ doctors: { $in: [id] } })
         .then((data) => {
             if (data) {
                 response.status(200).json({ "message": "this doctor already exist!" })
             } else {
+                
                 ClinicSchema.findByIdAndUpdate(
                     { _id: request.params.id },
                     { $push: { doctors: request.body.doctors } }

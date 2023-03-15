@@ -17,7 +17,7 @@ const router = express.Router();
 
 
 // Re-route into other resource routers 
-router.use('/patient/:patientId/appointment',allowedUsers.checkWithRole("patient"),controller.newAppointment,appointmentRouter)
+router.use('/patient/:patientId/appointment',controller.newAppointment,appointmentRouter)
 
 
 router.route("/patient")
@@ -29,5 +29,8 @@ router.route("/patient/:id")
 .get(validation.paramIdInt,validator,controller.getPatient)
 .delete(validation.paramIdInt,validator,controller.deletePatient)
 .patch(validation.patientUpdate,validator,controller.updatePatient)
+
+router.route("/patient/:id/status")
+.patch(validation.updateStatus,validator,controller.updatepatientStatus)
 
 module.exports=router;

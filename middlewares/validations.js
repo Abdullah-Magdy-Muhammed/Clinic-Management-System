@@ -69,6 +69,7 @@ const userInfoUpdate = [
     body("password").optional()
         .isString()
         .withMessage("password is required"),
+
 ]
 //-------------------------Patient-----------------------------//
 exports.patientPost = [
@@ -151,8 +152,8 @@ exports.calenderUpdate = [
 exports.appointmentPost = [
     body("date")
         .isDate().withMessage("date Should be date"),
-    body("doctorName")
-        .isString().withMessage("doctorName Should be String"),
+    body("doctor")
+        .isInt().withMessage("doctor Should be Integer"),
     body("startAt")
         .isString().withMessage("startAt Should be time"),
 ]
@@ -271,5 +272,12 @@ exports.medicineUpdate = [
         .isAfter(new Date().toLocaleDateString("en-US").replace(/\//g, "-")).withMessage('Exp-date should be after Today ...'),
 
 ];
+
+//-------------------------Update Status----------------------//
+exports.updateStatus = [
+    paramIdInt,
+    body("status").optional().isIn(['blocked','pending','active','deactivated'])
+        .withMessage("status Shoud be One Of ('blocked','pending','active','deactivated')"),
+]
 exports.paramIdInt = paramIdInt 
 exports.paramisMongoId =  paramisMongoId 
