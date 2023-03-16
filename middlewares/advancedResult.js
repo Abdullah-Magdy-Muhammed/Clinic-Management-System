@@ -44,12 +44,14 @@ const advancedResults = (model, populate)=> async (request,response,next)=>{
     .skip(startIndex)
     .populate(populate)
     .then(data=>{
-        response.advancedResults ={
-            success: true,
-            count: data.length,
-            pagination,
-            data:data 
-        }
+        // response.advancedResults ={
+        //     // success: true,
+        //     // count: data.length,
+        //     // pagination,
+        //     data:data 
+        // }
+
+        response.advancedResults =data
         next()
     })
     .catch(error=>{
@@ -63,12 +65,14 @@ const advancedResults = (model, populate)=> async (request,response,next)=>{
   .limit(limit)
   .skip(startIndex)
   .then(data=>{
-      response.advancedResults ={
-          success: true,
-          count: data.length,
-          pagination,
-          data:data 
-      }
+    //   response.advancedResults ={
+    //       success: true,
+    //       count: data.length,
+    //       pagination,
+    //       data:data 
+    //   }
+    response.advancedResults =data
+
       next()
   })
   .catch(error=>{

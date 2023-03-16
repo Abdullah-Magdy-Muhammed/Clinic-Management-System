@@ -68,14 +68,21 @@ mongoose.connect(process.env.DB_URL)
 server.use(morgan('tiny'))
 
 //  cross domain to access from any web to my website =>(codepen)
-server.use((request, response, next) => {
-    response.header("Access-Controll-Allow-Origin", "*"); // access for all
-    response.header("Access-Controll-Allow-Method", "POST,DELETE,PUT,GET,OPTIONS"); //OPTIONS =>for detect error in browser and handle it
-    response.header("Access-Controll-Allow-Headers", "Content-Type,Authorization");  //handle req & response Auth & fetch
+// server.use((request, response, next) => {
+//     response.header("Access-Controll-Allow-Origin", "*"); // access for all
+//     response.header("Access-Controll-Allow-Method", "POST,DELETE,PUT,GET,OPTIONS"); //OPTIONS =>for detect error in browser and handle it
+//     response.header("Access-Controll-Allow-Headers", "Content-Type,Authorization");  //handle req & response Auth & fetch
+//     next();
+// });
+
+server.use((request,response,next)=>{
+
+    response.header("Access-Control-Allow-Origin","*");
+    response.header("Access-Control-Allow-Methods","GET,POST,DELETE,PATCH,OPTIONS");
+    response.header("Access-Control-Allow-Headers","Content-Type,Authorization")
     next();
-});
 
-
+})
 // Body Parser (Convert body data to Json format)
 server.use(express.json())
 
