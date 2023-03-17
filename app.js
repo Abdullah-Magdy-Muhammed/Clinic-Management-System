@@ -76,12 +76,10 @@ server.use(morgan('tiny'))
 // });
 
 server.use((request,response,next)=>{
-
     response.header("Access-Control-Allow-Origin","*");
     response.header("Access-Control-Allow-Methods","GET,POST,DELETE,PATCH,OPTIONS");
     response.header("Access-Control-Allow-Headers","Content-Type,Authorization")
     next();
-
 })
 // Body Parser (Convert body data to Json format)
 server.use(express.json())

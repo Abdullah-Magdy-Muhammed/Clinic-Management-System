@@ -14,7 +14,7 @@ const logger=new LoggerServices('employee');
 
 //Get All Employees
 exports.getAllEmployees = (request, response, next) => {
-    response.status(200).json(response.advancedResults).populate({ path:"clinicId" , select: { _id:0 , name:1 } })
+    response.status(200).json(response.advancedResults)
 }
 
 
