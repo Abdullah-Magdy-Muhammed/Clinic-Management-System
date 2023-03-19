@@ -6,13 +6,18 @@ const asyncHandler = require('express-async-handler')
 
 
 exports.getAllMedicines =  (request,response,next)=>{
-
-    response.status(200).json(response.advancedResults)
+    let  data=[];
+    response.advancedResults.forEach(element => {
+        if(element.archive==false){
+            data.push(element);
+        }    });
+        console.log(data)
+    response.status(200).json(data)
 }
 exports.getMedicineID=(request,response,next)=>{
     const medicineId = request.params.id;
     medicineScema.findById(medicineId).then(data=>{
-        if(data!=null){
+        if(data!=null && data.archive==false){
             response.status(200).json(data);
         }else{
             next(new ErrorResponse(`medicine doesn't exist with id of ${request.params.id}`,404))
@@ -93,11 +98,21 @@ exports.updateMedicineData=(request,response,next)=>{
     
     } 
 }
+// exports.deleteMedicine=(request,response,next)=>{
+//     // const medicineId = request.params.id;
+//     medicineScema.findByIdAndDelete({ _id: request.params.id })
+//     .then(data=>{
+//         if(data==null)
+//         response.status(200).json({success:true,message:"delete medicine",id:request.params});
+           
+//     }).catch(error=>next(error))
+
+// }
 exports.deleteMedicine=(request,response,next)=>{
     // const medicineId = request.params.id;
-    medicineScema.findByIdAndDelete({ _id: request.params.id })
+    medicineScema.updateOne({ _id: request.params.id },{
+        $set:{  archive:true }})
     .then(data=>{
-        if(data==null)
         response.status(200).json({success:true,message:"delete medicine",id:request.params});
            
     }).catch(error=>next(error))

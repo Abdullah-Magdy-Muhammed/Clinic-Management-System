@@ -118,6 +118,7 @@ exports.deleteDoctor = (request, response, next) => {
 exports.getMedicien = (request, response, next) => {
     ClinicSchema.findById(request.params.id).populate({ path: "medicines", select: { _id: 0 } })
         .then((data) => {
+            
             response.status(200).json(data.medicines)
         })
         .catch(error => next(error))

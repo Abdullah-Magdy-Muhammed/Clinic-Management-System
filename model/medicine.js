@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
         type:Number,
         required:[true,'Please add a quantity']
      },
-    
+     archive:{ type: Boolean, default: false },
     mfd_date: {
          type: Date, 
         //  required:[true,'Please add a  mfd_date']

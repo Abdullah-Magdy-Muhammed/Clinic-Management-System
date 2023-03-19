@@ -14,6 +14,7 @@ const schema = new mongoose.Schema({
     },
     clinicId: { type: Number, ref:"clinic"},
     isScaned:{ type: Boolean, default: false },
+    archive:{ type: Boolean, default: false },
     calenderId:{type:Number},
     duration:{type:Number}
 },{_id:false})
