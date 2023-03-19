@@ -78,6 +78,7 @@ function specificDoctorUpdate(request, response, next) {
         $set: {
             email: request.body.email,
             password: request.body.password,
+            status: request.body.status,
             role: "doctor"
         }
     }).then(res => {
@@ -98,6 +99,7 @@ function specificDoctorUpdate(request, response, next) {
                     clinicId: request.body.clinicId,
                     appointmentId: request.body.appointmentId,
                     price: request.body.price,
+                    status: request.body.status
                 }
             },
             {}
