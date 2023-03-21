@@ -81,7 +81,8 @@ exports.createPatient = async (request,response,next)=>{
             email: request.body.email,
             phone: request.body.phone,
             address: request.body.address,
-            prescriptions:request.body.prescriptions
+            prescriptions:request.body.prescriptions,
+            password:request.body.password
         })
         newPatient.save()
             .then(result => {
