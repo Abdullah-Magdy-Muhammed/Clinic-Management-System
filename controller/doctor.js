@@ -45,7 +45,6 @@ exports.addNewDoctor = async (request, response, next) => {
             yearsOfExperience: request.body.yearsOfExperience,
             calender: request.body.calender,
             clinicId: request.body.clinicId,
-            appointmentId: request.body.appointmentId,
             price: request.body.price,
             status: request.body.status
         });
@@ -95,9 +94,7 @@ function specificDoctorUpdate(request, response, next) {
                     address: request.body.address,
                     speciality: request.body.speciality,
                     yearsOfExperience: request.body.yearsOfExperience,
-                    calender: request.body.calender,
                     clinicId: request.body.clinicId,
-                    appointmentId: request.body.appointmentId,
                     price: request.body.price,
                     status: request.body.status
                 }

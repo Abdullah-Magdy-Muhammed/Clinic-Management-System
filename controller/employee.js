@@ -94,7 +94,8 @@ function specificEmployeeUpdate(request, response, next) {
         $set: {
             email: request.body.email,
             password: request.body.password,
-            role: "employee"
+            role: "employee",
+            status: request.body.status
         }
     }).then(res => {
     employeeSchema.updateOne({
@@ -110,7 +111,8 @@ function specificEmployeeUpdate(request, response, next) {
                 phone: request.body.phone,
                 gender: request.body.gender,
                 address: request.body.address,
-                clinicId:request.body.clinicId
+                clinicId:request.body.clinicId,
+                status: request.body.status
             }
         }).then(data => {
             if (data.matchedCount == 0) {
