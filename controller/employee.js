@@ -21,7 +21,7 @@ exports.getAllEmployees = (request, response, next) => {
 ///-----------------------------------------
 function specificEmployee(request, response, next) {
     employeeSchema.findOne(
-        { _id:request.params.id }).populate({ path:"clinicId" , select: { _id:0 , name:1 } })
+        { _id:request.params.id }).populate({ path:"clinicId" , select: { _id:1 , name:1 } })
         .then(data=>{
             if(data){
                 logger.info(`get employee with id: ${request.params.id}`,response.advancedResults );

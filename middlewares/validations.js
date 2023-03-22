@@ -169,7 +169,7 @@ exports.appointmentUpdate = [
 //-------------------------employee-----------------------------//
 
 exports.employeePost=[
-    body("birthDate").isString().withMessage("Please Enter Valid Date"),
+    //body("birthDate").isString().withMessage("Please Enter Valid Date"),
     body("salary").isNumeric().withMessage("Salary should be number"),
     body("clinicId").isNumeric().withMessage("clinicId sould be Number"),
     ...phonePost,
