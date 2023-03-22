@@ -5,7 +5,7 @@ const employeeController=require("../controller/employee");
 const advancedResults = require ("./../middlewares/advancedResult");
 require('./../model/employee');
 const mongoose = require("mongoose")
-//const allowedUsers =require("./../middlewares/AuthorizeRole");
+const allowedUsers =require("./../middlewares/AuthorizeRole");
 
 const employee= mongoose.model('employee');
 
@@ -13,13 +13,12 @@ const router = express.Router();
 //Without Id
 router.route("/employee")
 .get(advancedResults(employee,{ path:"clinicId" , select: { _id:0 , name:1 } }),employeeController.getAllEmployees)
-.post(validation.employeePost,validator,employeeController.addEmployee)
 
 
 //Route ID
 router.route("/employee/:id")
 .get(
-    validation.paramIdInt,validator,employeeController.getEmployeeById)
+    validation.paramIdInt,validator,allowedUsers.checkWithRole("admin","employee"),employeeController.getEmployeeById)
 .delete(
     validation.paramIdInt,validator,employeeController.deleteById)
 .patch(

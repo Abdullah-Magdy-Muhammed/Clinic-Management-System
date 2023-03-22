@@ -35,16 +35,16 @@ function specificEmployee(request, response, next) {
 
 //Get Employee By Id
 exports.getEmployeeById=(request,response,next)=>{
-    specificEmployee(request, response, next)
-    // if (request.role == "employee" && request.params.id == request.id) {
-    //     specificEmployee(request, response, next)
-    // } else if (request.role == "admin") {
-    //     specificEmployee(request, response, next)
-    // } else {
-    //     let error = new Error("Not Authorized");
-    //     error.status = 403;
-    //     next(error)
-    // }
+    // specificEmployee(request, response, next)
+    if (request.role == "employee" && request.params.id == request.id) {
+        specificEmployee(request, response, next)
+    } else if (request.role == "admin") {
+        specificEmployee(request, response, next)
+    } else {
+        let error = new Error("Not Authorized");
+        error.status = 403;
+        next(error)
+    }
 }
 ///------------------------------------------------
 
@@ -80,7 +80,7 @@ exports.addEmployee = async(request, response, next) => {
         }).catch(err => next(err))
 }else {
     logger.error(`faild to add employee with id: ${request.params.id}`);
-    next(new Error("This employee is already exist :) "));
+    next(new Error("This Email is already exist :) "));
 }
 }
 

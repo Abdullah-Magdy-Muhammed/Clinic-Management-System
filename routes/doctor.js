@@ -20,7 +20,6 @@ router.use('/doctors/:doctorId/appointment', controller.reRoute, appointmentRout
 
 router.route("/doctors")
       .get(advancedResults(doctors), controller.getAllDoctors)
-      .post(validation.doctorPost, validator, controller.addNewDoctor)
 
 router.route("/doctors/:id")
       .get(validation.paramIdInt,validator, controller.getDoctorById)
