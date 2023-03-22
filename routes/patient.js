@@ -22,7 +22,6 @@ router.use('/patient/:patientId/appointment',controller.newAppointment,appointme
 
 router.route("/patient")
 .get(advancedResults(patient),controller.getPatients)
-.post(validation.patientPost,validator,controller.createPatient)
 
 
 router.route("/patient/:id")
