@@ -26,7 +26,7 @@ router
 )
 
 
-  .delete(allowedUsers.checkWithRole("admin"), validation.paramIdInt,
+  .delete(validation.paramIdInt,
   validator, prescriptionController.deleteprecriptionByID)
 
 
