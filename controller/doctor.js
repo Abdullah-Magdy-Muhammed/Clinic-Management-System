@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose");
 const ErrorResponse = require('./../utils/errorResponse')
 const LoggerServices = require('./../services/loggerServices')
+const bcrypt = require("bcrypt");
 
 require("./../model/doctor");
 require('./../model/user');
