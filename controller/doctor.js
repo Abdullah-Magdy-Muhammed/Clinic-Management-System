@@ -71,47 +71,49 @@ exports.addNewDoctor = async (request, response, next) => {
 
 
 function specificDoctorUpdate(request, response, next) {
-    user.updateOne({
-        doctorsRef_id: request.params.id
-    }, {
-        $set: {
-            email: request.body.email,
-            password: request.body.password,
-            status: request.body.status,
-            role: "doctor"
-        }
-    }).then(res => {
+    bcrypt.hash(request.body.password, 12).then(data => {
+        const encrypted = data;
+        user.updateOne({
+            doctorsRef_id: request.params.id
+        }, {
+            $set: {
+                email: request.body.email,
+                password: encrypted,
 
-        doctorSchema.updateOne(
-            { _id: request.params.id },
-            {
-                $set: {
-                    name: request.body.name,
-                    gender: request.body.gender,
-                    email: request.body.email,
-                    //image:request.file.filename,
-                    phone: request.body.phone,
-                    address: request.body.address,
-                    speciality: request.body.speciality,
-                    yearsOfExperience: request.body.yearsOfExperience,
-                    clinicId: request.body.clinicId,
-                    price: request.body.price,
-                    status: request.body.status
-                }
-            },
-            {}
-        )
-            .then(result => {
-                if (result.matchedCount == 0) {
-                    logger.error(`faild to update doctor with id: ${request.params.id}`);
-                    throw new Error("This doctor is not exist");
-                }
-                else {
-                    logger.info(`update Doctor with id: ${request.params.id}`, response.advancedResults);
-                    response.status(200).json({ message: "Doctor updated successfully" })
-                }
-            })
-            .catch(error => { next(error) })
+            }
+        }).then(res => {
+
+            doctorSchema.updateOne(
+                { _id: request.params.id },
+                {
+                    $set: {
+                        name: request.body.name,
+                        gender: request.body.gender,
+                        email: request.body.email,
+                        //image:request.file.filename,
+                        phone: request.body.phone,
+                        address: request.body.address,
+                        speciality: request.body.speciality,
+                        yearsOfExperience: request.body.yearsOfExperience,
+                        clinicId: request.body.clinicId,
+                        price: request.body.price,
+                        status: request.body.status
+                    }
+                },
+                {}
+            )
+                .then(result => {
+                    if (result.matchedCount == 0) {
+                        logger.error(`faild to update doctor with id: ${request.params.id}`);
+                        throw new Error("This doctor is not exist");
+                    }
+                    else {
+                        logger.info(`update Doctor with id: ${request.params.id}`, response.advancedResults);
+                        response.status(200).json({ message: "Doctor updated successfully" })
+                    }
+                })
+                .catch(error => { next(error) })
+        })
     })
 }
 

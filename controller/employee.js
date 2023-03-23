@@ -88,44 +88,46 @@ exports.addEmployee = async (request, response, next) => {
 //U ---------------------------------------------------
 
 function specificEmployeeUpdate(request, response, next) {
-    user.updateOne({
-        employeeRef_id: request.params.id
-    }, {
-        $set: {
-            email: request.body.email,
-            password: request.body.password,
-            role: "employee"
-        }
-    }).then(res => {
-        employeeSchema.updateOne({
-            _id: request.params.id
-        },
-            {
-                $set: {
-                    name: request.body.name,
-                    hireDate: request.body.hireDate,
-                    birth_date: request.body.birth_date,
-                    email: request.body.email,
-                    salary: request.body.salary,
-                    phone: request.body.phone,
-                    gender: request.body.gender,
-                    address: request.body.address,
-                    clinicId: request.body.clinicId
-                }
-            }).then(data => {
-                if (data.matchedCount == 0) {
-                    logger.error(`faild to update employee with id: ${request.params.id}`);
-                    next(new ErrorResponse("Not found any id match with (" + request.params.id + ") ", 404))
-                } else {
-                    if (data.modifiedCount == 0) {
-                        next(new ErrorResponse("No changes happen", 400))
-                    } else {
-                        logger.info(`update employee with id: ${request.params.id}`, response.advancedResults);
-                        response.status(201).json({ success: true, message: "Update patient" })
+    bcrypt.hash(request.body.password, 12).then(data => {
+        const encrypted = data
+        user.updateOne({
+            employeeRef_id: request.params.id
+        }, {
+            $set: {
+                email: request.body.email,
+                password: encrypted,
+            }
+        }).then(res => {
+            employeeSchema.updateOne({
+                _id: request.params.id
+            },
+                {
+                    $set: {
+                        name: request.body.name,
+                        hireDate: request.body.hireDate,
+                        birth_date: request.body.birth_date,
+                        email: request.body.email,
+                        salary: request.body.salary,
+                        phone: request.body.phone,
+                        gender: request.body.gender,
+                        address: request.body.address,
+                        clinicId: request.body.clinicId
                     }
-                }
-            })
-            .catch(error => next(error))
+                }).then(data => {
+                    if (data.matchedCount == 0) {
+                        logger.error(`faild to update employee with id: ${request.params.id}`);
+                        next(new ErrorResponse("Not found any id match with (" + request.params.id + ") ", 404))
+                    } else {
+                        if (data.modifiedCount == 0) {
+                            next(new ErrorResponse("No changes happen", 400))
+                        } else {
+                            logger.info(`update employee with id: ${request.params.id}`, response.advancedResults);
+                            response.status(201).json({ success: true, message: "Update patient" })
+                        }
+                    }
+                })
+                .catch(error => next(error))
+        })
     })
 }
 
