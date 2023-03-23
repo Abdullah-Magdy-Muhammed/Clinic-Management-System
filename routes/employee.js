@@ -18,7 +18,7 @@ router.route("/employee")
 //Route ID
 router.route("/employee/:id")
     .get(
-        validation.paramIdInt, validator, allowedUsers.checkWithRole("admin", "employee"), employeeController.getEmployeeById)
+        validation.paramIdInt, validator, employeeController.getEmployeeById)
     .delete(
         validation.paramIdInt, validator, employeeController.deleteById)
     .patch(
