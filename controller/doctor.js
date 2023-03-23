@@ -132,7 +132,7 @@ exports.updateDoctor = (request, response, next) => {
 
 
 function specificDoctor(request, response, next) {
-    doctorSchema.findOne({ _id: request.params.id })
+    doctorSchema.findOne({ _id: request.params.id }).populate({ path: "clinicId", select: { _id: 0, name: 1 } })
         .then((data) => {
             if (data != null) {
                 logger.info(`get doctor with id: ${request.params.id}`);
@@ -147,7 +147,7 @@ function specificDoctor(request, response, next) {
 }
 
 exports.getDoctorById = (request, response, next) => {
-            specificDoctor(request, response, next)
+    specificDoctor(request, response, next)
 
     // if (request.role == "doctor" && request.params.id == request.id) {
     //     specificDoctor(request, response, next)
@@ -178,7 +178,7 @@ exports.deleteDoctor = async (request, response, next) => {
 
 
 
-exports.updateDoctorStatus = async  (request, response, next) => {
+exports.updateDoctorStatus = async (request, response, next) => {
     user.updateOne({
         doctorsRef_id: request.params.id
     }, {
