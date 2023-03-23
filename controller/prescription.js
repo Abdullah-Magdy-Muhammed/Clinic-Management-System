@@ -57,7 +57,8 @@ exports.addrecriptiondata = (request, response, next) => {
           date: request.body.date,
           doctorId: request.body.doctorId,
           patientId: request.body.patientId,
-          medicine: request.body.medicine
+          medicine: request.body.medicine ,
+          description: request.body.description
         })
         newrecriptiondata.save()
           .then((res) => response.status(201).json(res))
@@ -75,14 +76,15 @@ exports.addrecriptiondata = (request, response, next) => {
 exports.updaterecriptionId = (request, response, next) => {
   rescriptionschema.findOne({ _id: request.params.id })
     .then(data => {
-      if (data.doctorId == request.id) {
+      if (data.doctorId == request.body.doctorId) {///!!
         rescriptionschema.updateOne({ _id: request.params.id },
           {
             $set: {
               date: request.body.date,
               doctorId: request.body.doctorId,
               patientId: request.body.patientId,
-              medicine: request.body.medicine
+              medicine: request.body.medicine,
+              description: request.body.description
             }
           }).then(result => {
             response.status(201).json(result)
