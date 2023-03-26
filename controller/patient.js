@@ -12,6 +12,20 @@ const patient = mongoose.model('patient');
 
 const logger = new LoggerServices('patient');
 
+exports.reRoute = (request, response, next) => {
+    patient.findOne({ _id: request.params.patientId })
+        .then(data => {
+            if (data != null) {
+
+                request.patientId = request.params.patientId
+                next()
+            } else {
+                next(new ErrorResponse(`Patient doesn't exist with id of ${request.params.patientId}`, 404))
+            }
+        }).catch(error => {
+            next(new Error(error))
+        })
+}
 //Re-route
 exports.newAppointment = (request, response, next) => {
 

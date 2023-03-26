@@ -5,9 +5,25 @@ require("./../model/invoice");
 const InvoiceSchema = mongoose.model("invoice");
 const pdfKit = require("pdfkit");
 let fs = require("fs");
-exports.getAllinvoice = (request, response, next) => {
+exports.getAllinvoice = async (request, response, next) => {
+    console.log("from invoice controller");
+    let query;
+    if (request.patientId) {
+        query = InvoiceSchema.find({ patientId: request.patientId }).populate({ path: "doctor", select: { _id: 0, name: 1 } })
+            .populate({ path: "patient", select: { _id: 0, name: 1 } })
+        const invoice
+            = await query;
+        response.status(200).json({
+            success: true,
+            count: invoice
+                .length,
+            data: invoice
 
-    response.status(200).json(response.advancedResults)
+        })
+    }
+    else {
+        response.status(200).json(response.advancedResults)
+    }
 }
 
 
