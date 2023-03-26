@@ -105,7 +105,7 @@ exports.getAppointment = async (request, response, next) => {
         })
     } else if (request.doctorId) {
         query = appointment.find({ doctorId: request.doctorId })
-            .populate({ path: "patientId", select: { _id: 0, appointment: 0, prescriptions: 0, invoices: 0, __v: 0 } })
+            .populate({ path: "patientId", select: { _id: 0, appointment: 0, prescriptions: 0, invoices: 0, __v: 0 } }).populate({ path: "clinicId", select: { _id: 0, name: 1 } })
         const appointments = await query;
         response.status(200).json({
             success: true,

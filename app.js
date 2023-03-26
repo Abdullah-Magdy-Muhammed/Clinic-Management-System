@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const errorHandler = require("./middlewares/error");
-const cors = require('cores');
+// const cors = require('cores');
 //images
 const multer = require('multer');
 const path = require('path');
