@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const errorHandler = require("./middlewares/error");
-const cors=require('cors');
+const cors = require('cores');
 //images
 const multer = require('multer');
 const path = require('path');
@@ -12,7 +12,7 @@ const body_parser = require('body-parser');
 require('dotenv').config();
 
 //Router Files
-const publicRouter=require("./routes/publicRoutes");
+const publicRouter = require("./routes/publicRoutes");
 const userRouter = require("./routes/user");
 const patientRouter = require("./routes/patient");
 const clinicRouter = require("./routes/clinic");
@@ -23,10 +23,10 @@ const rescriptionRouter = require("./routes/prescription");
 const doctorRouter = require("./routes/doctor");
 const calender = require("./routes/doctorsCalender")
 const invoiceRouter = require("./routes/invoice");
-const paymentRouter=require("./routes/payment");
-const loginRouter =require("./routes/login");
+const paymentRouter = require("./routes/payment");
+const loginRouter = require("./routes/login");
 const authinticationMw = require("./middlewares/authinticationMw")
-const reportRouter=require("./routes/report");
+const reportRouter = require("./routes/report");
 
 
 //var for store image 
@@ -77,19 +77,20 @@ server.use(morgan('tiny'))
 //     next();
 // });
 
-// server.use((request,response,next)=>{
-//     response.header("Access-Control-Allow-Origin","*");
-//     response.header("Access-Control-Allow-Methods","GET,POST,DELETE,PATCH,OPTIONS");
-//     response.header("Access-Control-Allow-Headers","Content-Type,Authorization")
-//     next();
-// })
+server.use((request, response, next) => {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PATCH,OPTIONS");
+    response.header("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    next();
+})
 
-server.use(cors());
+// server.use(cors());
 // Body Parser (Convert body data to Json format)
 server.use(express.json())
 
-server.use(publicRouter)
+// server.use(publicRouter)
 //Login
+// server.use(loginRouter);
 // server.use(loginRouter);
 
 // //Authentication MW
@@ -100,11 +101,11 @@ server.use(userRouter)
 server.use(patientRouter)
 server.use(clinicRouter)
 server.use(employeeRouter)
-server.use( "/appointment",appointmentRouter)
-server.use("/medicines",medicineRouter);
+server.use("/appointment", appointmentRouter)
+server.use("/medicines", medicineRouter);
 server.use(rescriptionRouter);
 server.use(doctorRouter);
-server.use("/calender",calender);
+server.use("/calender", calender);
 server.use(invoiceRouter);
 server.use(paymentRouter);
 server.use(reportRouter);
