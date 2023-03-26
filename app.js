@@ -88,12 +88,12 @@ server.use(cors());
 // Body Parser (Convert body data to Json format)
 server.use(express.json())
 
-server.use(publicRouter)
+//server.use(publicRouter)
 //Login
 server.use(loginRouter);
 
 //Authentication MW
-server.use(authinticationMw.login)
+//server.use(authinticationMw.login)
 
 //Routes
 server.use(userRouter)

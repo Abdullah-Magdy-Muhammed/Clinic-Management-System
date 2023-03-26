@@ -11,11 +11,26 @@ const doctors= mongoose.model('doctors');
 
 
 
+
+
 // @desc     Get all Calender
 // @route    GET /calender
 // @access   Public
-exports.getCalenders =  (request,response,next)=>{
-    response.status(200).json(response.advancedResults);
+exports.getCalenders = async (request,response,next)=>{
+
+    let query;
+     if (request.doctorId) {
+        query = calender.find({ doctor: request.doctorId })
+        const calenders = await query;
+        response.status(200).json({
+            success: true,
+            count: calenders.length,
+            data: calenders
+        })
+    } else {
+        response.status(200).json(response.advancedResults)
+
+    }
 }
 
 
