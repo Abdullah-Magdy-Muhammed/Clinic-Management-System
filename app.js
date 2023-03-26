@@ -90,10 +90,10 @@ server.use(express.json())
 
 server.use(publicRouter)
 //Login
-server.use(loginRouter);
+// server.use(loginRouter);
 
-//Authentication MW
-server.use(authinticationMw.login)
+// //Authentication MW
+// server.use(authinticationMw.login)
 
 //Routes
 server.use(userRouter)
