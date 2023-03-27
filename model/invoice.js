@@ -13,7 +13,7 @@ const schema = new mongoose.Schema({
         type: Date,
         min: '2023-01-01'
     },
-    doctor: { type: Number, ref: "doctor" },
+    doctor: { type: Number, ref: "doctors" },
     patient: { type: Number, ref: "patient" },
     // clinic ref
 }, { _id: false })

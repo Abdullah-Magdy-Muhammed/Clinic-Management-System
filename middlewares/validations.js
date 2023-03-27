@@ -11,9 +11,10 @@ const addressPost = [
     body("address.street").optional()
         .isString()
         .withMessage("street Should Be string"),
-    body("address.building").optional()
-        .isInt()
-        .withMessage("building Should Be integer")
+    body("address.building")
+    // .optional()
+    //     .isInt()
+    //     .withMessage("building Should Be integer")
    ]
 const phonePost =[
     body("phone").optional()
@@ -169,9 +170,9 @@ exports.appointmentUpdate = [
 //-------------------------employee-----------------------------//
 
 exports.employeePost=[
-    body("birthDate").isString().withMessage("Please Enter Valid Date"),
-    body("salary").isNumeric().withMessage("Salary should be number"),
-    body("clinicId").isNumeric().withMessage("clinicId sould be Number"),
+    // body("birthDate").isString().withMessage("Please Enter Valid Date"),
+    // body("salary").isNumeric().withMessage("Salary should be number"),
+    // body("clinicId").isNumeric().withMessage("clinicId sould be Number"),
     ...phonePost,
     ...addressPost,
     ...userInfoPost,
