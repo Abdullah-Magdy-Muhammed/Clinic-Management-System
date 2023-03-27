@@ -12,6 +12,7 @@ require("./../model/patient");
 const calender = mongoose.model('calender');
 const doctors = mongoose.model('doctors');
 const appointment = mongoose.model('appointment');
+const patient = mongoose.model('patient');
 
 
 
@@ -31,10 +32,10 @@ exports.createAppointment = asyncHandler(async (request, response, next) => {
     let query;
     //prepare search Object 
     try {
-        query = await doctors.findOne({ _id: request.body.doctor })
+        query = await doctors.findOne({ name: request.body.doctorName })
         let doctorObject = await query
         if (doctorObject.length == 0) {
-            next(new ErrorResponse('Wrong Doctor ID'))
+            next(new ErrorResponse('Wrong Doctor Name'))
         }
 
         query = await calender.findOne({
@@ -49,7 +50,6 @@ exports.createAppointment = asyncHandler(async (request, response, next) => {
             //create new appointment
             let newAppointment = new appointment({
                 doctorId: doctorObject._id,//no patch 
-                clinicId: doctorObject.clinicId,
                 date: date,
                 time: startAt.format("h:mm a"),
                 patientId: request.patientId,
@@ -58,6 +58,15 @@ exports.createAppointment = asyncHandler(async (request, response, next) => {
             newAppointment.save()
                 .then(data => {
 
+                    //update patient 
+                    patient.findByIdAndUpdate(
+                        { _id: request.patientId },
+                        { $push: { appointment: data._id } }
+                    ).then(res => {
+                        console.log(res)
+                    }).catch(error => {
+                        next(new ErrorResponse(error));
+                    })
 
                     //update calender
                     calender.findByIdAndUpdate(
@@ -118,17 +127,18 @@ exports.getAppointment = async (request, response, next) => {
     }
 
 }
+////---------------------------------------------------------------------------------
 
 exports.getAppoitmentById = (request, response, next) => {
     appointment.findOne({ _id: request.params.id })
         .then(data => {
             if (data != null) {
-                if(data.patientId==request.id)
-                {
+            //     if(data.patientId==request.id)
+            //     {
                     response.status(200).json(data)
-                }else{
-                    next(new Error('Not Authorized'))
-                }
+                // }else{
+                //     next(new Error('Not Authorized'))
+                // }
                 
             }else
             {
@@ -140,6 +150,7 @@ exports.getAppoitmentById = (request, response, next) => {
 
 }
 
+////---------------------------------------------------------------------------------
 
 
 
@@ -204,6 +215,7 @@ exports.updateAppointment = async (request, response, next) => {
         })
         let calenderObject = await query;
         if (calenderObject) {
+            //لو الوقت متاح عند الدكتور 
             //update appointment 
             appointment.find({
                 _id: request.params.id
@@ -239,6 +251,13 @@ exports.deleteAppointment = async (request, response, next) => {
     const id = parseInt(request.params.id);
     appointment.findByIdAndDelete({ _id: request.params.id })
         .then(appointment => {
+
+            patient.findByIdAndUpdate(
+                { _id: appointment.patientId },
+                { $pull: { appointment: { $in: [appointment._id] } } }
+            ).then(patient => {}).catch(error => {
+                next(new Error(error))
+            })
 
             calender.findByIdAndUpdate(
                 { _id: appointment.calenderId },
