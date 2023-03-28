@@ -8,6 +8,8 @@ const schema = new mongoose.Schema({
             message: 'This way of payment do not allowed'
         }
     },
+    
+    archive:{ type: Boolean, default: false },
     totalCost: Number,
     date: {
         type: Date,
