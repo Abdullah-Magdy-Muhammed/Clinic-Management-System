@@ -4,6 +4,7 @@
   module.exports.checkWithRole= (...allowed) => {
   return (request, response, next) => {
     let userRole = request.role;
+    console.log("khod t3ala");
     console.log(request.role);
     let getAllowedRoles = [...allowed];
 

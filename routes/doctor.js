@@ -19,7 +19,7 @@ router.use('/doctors/:doctorId/appointment', controller.reRoute, appointmentRout
 
 
 router.route("/doctors")
-      .get(advancedResults(doctors,{ path: "clinicId", select: { _id: 1, name: 1 } }), controller.getAllDoctors)
+      .get(advancedResults(doctors), controller.getAllDoctors)
 
 router.route("/doctors/:id")
       .get(validation.paramIdInt,validator, controller.getDoctorById)

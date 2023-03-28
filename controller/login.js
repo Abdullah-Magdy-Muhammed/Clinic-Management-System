@@ -15,7 +15,7 @@ exports.login = (req, res, next) => {
     return next(new ErrorResponse('Please Provide an email and password', 400));
   }
 
-  if (email == "admin@example.com" && password == "admin") {
+  if (email == "Al-Agezy@gmail.com" && password == "ahmed123") {
     let token = jwt.sign({
       role: "admin"
     }, process.env.SECRET_KEY);

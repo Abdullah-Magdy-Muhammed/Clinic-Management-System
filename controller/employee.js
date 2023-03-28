@@ -171,7 +171,6 @@ exports.updateEmployeeStaus = (request, response, next) => {
     }, {
         $set: {
             status: request.body.status
-            
         }
     }).then(res => {
         employeeSchema.updateOne({
@@ -179,8 +178,7 @@ exports.updateEmployeeStaus = (request, response, next) => {
         },
             {
                 $set: {
-                    status: request.body.status,
-                    clinicId: request.body.clinicId
+                    status: request.body.status
                 }
             }).then(data => {
                 if (data.matchedCount == 0) {
