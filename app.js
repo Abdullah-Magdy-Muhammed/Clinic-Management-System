@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const errorHandler = require("./middlewares/error");
-const cors = require('cors');
+// const cors = require('cores');
 //images
 const multer = require('multer');
 const path = require('path');
@@ -77,23 +77,24 @@ server.use(morgan('tiny'))
 //     next();
 // });
 
-// server.use((request, response, next) => {
-//     response.header("Access-Control-Allow-Origin", "*");
-//     response.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PATCH,OPTIONS");
-//     response.header("Access-Control-Allow-Headers", "Content-Type,Authorization")
-//     next();
-// })
+server.use((request, response, next) => {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PATCH,OPTIONS");
+    response.header("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    next();
+})
 
-server.use(cors());
+// server.use(cors());
 // Body Parser (Convert body data to Json format)
 server.use(express.json())
 
-server.use(publicRouter)
-// Login
-server.use(loginRouter);
+// server.use(publicRouter)
+//Login
+// server.use(loginRouter);
+// server.use(loginRouter);
 
 // //Authentication MW
-server.use(authinticationMw.login)
+// server.use(authinticationMw.login)
 
 //Routes
 server.use(userRouter)

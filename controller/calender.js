@@ -134,9 +134,9 @@ exports.deleteCalender =asyncHandler( async (request,response,next)=>{
     const id = parseInt(request.params.id);
     try{
        calender.deleteOne({_id:request.params.id}).then(res=>{
-        response.status(200).json({success:true,messege:"Delete done successfully"})
-       }).then(err=>{
-        response.status(400).send("Bad request - User not found");
+            response.status(200).json({success:true,messege:"Delete done successfully"})
+       }).catch(err=>{
+            response.status(400).send("Bad request - User not found");
        })
 
     }

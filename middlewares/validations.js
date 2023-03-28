@@ -163,8 +163,8 @@ exports.appointmentUpdate = [
     body("startAt")
         .optional()
         .isString().withMessage("startAt Should be time"),
-    body("date")
-    .isDate().withMessage("weekday Should be date"),
+    body("date").optional()
+    .isDate().withMessage("date Should be date"),
 ]
 
 //-------------------------employee-----------------------------//
