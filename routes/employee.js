@@ -12,7 +12,7 @@ const employee = mongoose.model('employee');
 const router = express.Router();
 //Without Id
 router.route("/employee")
-    .get(advancedResults(employee, { path: "clinicId", select: { _id: 1, name: 1 } }), employeeController.getAllEmployees)
+    .get(advancedResults(employee, { path: "clinicId", select: { _id: 0, name: 1 } }), employeeController.getAllEmployees)
 
 
 //Route ID

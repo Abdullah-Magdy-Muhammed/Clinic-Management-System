@@ -8,27 +8,16 @@ const asyncHandler = require('express-async-handler')
 exports.getAllMedicines =  (request,response,next)=>{
     let  data=[];
     response.advancedResults.forEach(element => {
-        
+        if(element.archive==false){
             data.push(element);
-      
-        });
-     
+        }    });
+        console.log(data)
     response.status(200).json(data)
 }
-
-// exports.getArchiveMedicines =  (request,response,next)=>{
-//     let  data=[];
-//     response.advancedResults.forEach(element => {
-//         if(element.archive==true){
-//             data.push(element);
-//         }    });
-//         console.log(data)
-//     response.status(200).json(data)
-// }
 exports.getMedicineID=(request,response,next)=>{
     const medicineId = request.params.id;
     medicineScema.findById(medicineId).then(data=>{
-        if(data!=null ){
+        if(data!=null && data.archive==false){
             response.status(200).json(data);
         }else{
             next(new ErrorResponse(`medicine doesn't exist with id of ${request.params.id}`,404))
@@ -97,7 +86,6 @@ exports.updateMedicineData=(request,response,next)=>{
                 price:request.body.price,
                 mfd_date:request.body.mfd_date,
                 exp_date:request.body.exp_date,
-                archive:request.body.archive
             }
 
         }).then(data=>{
@@ -123,17 +111,7 @@ exports.updateMedicineData=(request,response,next)=>{
 exports.deleteMedicine=(request,response,next)=>{
     // const medicineId = request.params.id;
     medicineScema.updateOne({ _id: request.params.id },{
-        $set:{  
-            drugName: request.body.drugName,
-            dosage:request.body.dosage,
-            quantity:request.body.quantity,
-            description:request.body.description,
-            form:request.body.form,
-            price:request.body.price,
-            archive:true,
-            mfd_date:request.body.mfd_date,
-            exp_date:request.body.exp_date,
-         }})
+        $set:{  archive:true }})
     .then(data=>{
         response.status(200).json({success:true,message:"delete medicine",id:request.params});
            

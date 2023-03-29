@@ -16,8 +16,6 @@ router.route("/")
 .get(advancedResults(medicine),validator,controller.getAllMedicines)
 .post(validation.medicinePost ,validator ,controller.addNewMedicine)
 
-// router.route("/archive").get(advancedResults(medicine),validator,controller.getArchiveMedicines)
-
 router.route("/:id")
 .delete(validation.paramIdInt,controller.deleteMedicine)
 .get(validation.paramIdInt,controller.getMedicineID)

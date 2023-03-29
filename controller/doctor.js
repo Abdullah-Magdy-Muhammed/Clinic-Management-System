@@ -135,7 +135,7 @@ exports.updateDoctor = (request, response, next) => {
 
 
 function specificDoctor(request, response, next) {
-    doctorSchema.findOne({ _id: request.params.id }).populate({ path: "clinicId", select: { _id: 1, name: 1 } })
+    doctorSchema.findOne({ _id: request.params.id }).populate({ path: "clinicId", select: { _id: 0, name: 1 } })
         .then((data) => {
             if (data != null) {
                 logger.info(`get doctor with id: ${request.params.id}`);
