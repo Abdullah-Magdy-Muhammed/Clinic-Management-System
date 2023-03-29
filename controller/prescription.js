@@ -19,7 +19,7 @@ exports.getAllrecriptiondata = (request, response, next) => {
   if (request.role == "doctor") {
 
     rescriptionschema.find({ doctorId: request.id }).populate({ path: 'doctorId', select: { name: 1, _id: 1 } })
-      .populate({ path: 'patientId', select: { name: 1, age: 1, _id: 0 } })
+      .populate({ path: 'patientId', select: { name: 1, age: 1, _id: 1 } })
       .then(data => {
         response.status(200).json(data)
       }).catch(error => next(error))
@@ -36,7 +36,7 @@ exports.getAllrecriptiondata = (request, response, next) => {
     rescriptionschema.find().populate({
       path: 'doctorId', select: { name: 1, speciality: 1, _id: 1 }
     }).populate({
-      path: 'patientId', select: { name: 1, _id: 0 }
+      path: 'patientId', select: { name: 1, _id: 1 }
     })
       .then((data) => {
         response.status(200).json(data);
