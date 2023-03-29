@@ -86,6 +86,7 @@ exports.updateMedicineData=(request,response,next)=>{
                 price:request.body.price,
                 mfd_date:request.body.mfd_date,
                 exp_date:request.body.exp_date,
+                archive:request.body.archive
             }
 
         }).then(data=>{

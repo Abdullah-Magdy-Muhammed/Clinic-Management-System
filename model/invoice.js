@@ -13,6 +13,8 @@ const schema = new mongoose.Schema({
         type: Date,
         min: '2023-01-01'
     },
+    
+    archive:{ type: Boolean, default: false },
     doctor: { type: Number, ref: "doctors" },
     patient: { type: Number, ref: "patient" },
     // clinic ref

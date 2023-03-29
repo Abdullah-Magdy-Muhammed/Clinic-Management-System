@@ -54,6 +54,7 @@ exports.updateInvoice = (request, response, next) => {
             date: request.body.date,
             doctor: request.body.doctor,
             patient: request.body.patient,
+            archive:request.body.archive
         }
     })
         .then(result => {
