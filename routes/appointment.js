@@ -17,7 +17,8 @@ router.route("/")
 
 
 router.route("/:id")
-.get(controller.getAppointment)
+.get(controller.getAppoitmentById)
+
 .delete(validation.paramIdInt,validator, controller.deleteAppointment)
 .patch(validation.appointmentUpdate,validator,controller.updateAppointment)
 
