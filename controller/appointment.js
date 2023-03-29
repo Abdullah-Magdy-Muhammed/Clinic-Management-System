@@ -123,11 +123,11 @@ exports.getAppoitmentById = (request, response, next) => {
     appointment.findOne({ _id: request.params.id })
         .then(data => {
             if (data != null) {
-                if (data.patientId == request.id) {
+                // if (data.patientId == request.id) {
                     response.status(200).json(data)
-                } else {
-                    next(new Error('Not Authorized'))
-                }
+                // } else {
+                //     next(new Error('Not Authorized'))
+                // }
 
             } else {
                 next(new Error('Appointment Not Found'))

@@ -9,7 +9,8 @@ exports.getAllinvoice = async (request, response, next) => {
     console.log("from invoice controller");
     let query;
     if (request.patientId) {
-        query = InvoiceSchema.find({ patientId: request.patientId }).populate({ path: "doctor", select: { _id: 0, name: 1 } })
+        query = InvoiceSchema.find({ patientId: request.patientId })
+        .populate({ path: "doctor", select: { _id: 0, name: 1 } })
             .populate({ path: "patient", select: { _id: 0, name: 1 } })
         const invoice
             = await query;
@@ -68,16 +69,28 @@ exports.updateInvoice = (request, response, next) => {
 }
 exports.getInvoiceByID = (request, response, next) => {
     InvoiceSchema.findById(request.params.id)
-        //   .populate({ path: "patient", select: { name: 1, _id: 0 } })
-        .then((data) => {
+        .populate({ path: "patient", select: { name: 1, _id: 0 ,email:1,phone:1 } })
+        .populate({ path: "doctor", select: { name: 1, _id: 0 ,email:1,phone:1 ,speciality:1,price:1, clinicId:1} })
+    .then((data) => {
             createPdf(data)
             response.status(200).json(data)
         })
         .catch(error => next(error))
 }
 exports.deleteInvoiceByID = (request, response, next) => {
-    InvoiceSchema.findByIdAndDelete(request.params.id)
-        .then((result) => {
+    // InvoiceSchema.findByIdAndDelete(request.params.id)
+    InvoiceSchema.updateOne({
+        _id: request.params.id,
+    }, {
+        $set: {
+            paymentType: request.body.paymentType,
+            totalCost: request.body.totalCost,
+            date: request.body.date,
+            doctor: request.body.doctor,
+            patient: request.body.patient,
+            archive:true,
+        }
+    }).then((result) => {
             if (result != null) {
                 response.status(200).json({ "message": "This Invoice is deleted" })
             } else {

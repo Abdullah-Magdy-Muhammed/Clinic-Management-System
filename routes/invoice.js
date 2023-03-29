@@ -16,7 +16,7 @@ router.route("/")
 
 
 router.route("/invoice")
-    .get(advancedResults(invoice), controller.getAllinvoice)
+    .get(advancedResults(invoice,[{ path:"doctor" , select: { _id:0 , name:1 }},{ path:"patient" , select: { _id:0, name:1 } }]), controller.getAllinvoice)
     .post(expressValidation.invoicePost, validator, controller.addInvoice)
 
 
